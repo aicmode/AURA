@@ -103,6 +103,19 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   transform: translateY(0);
 }
 
+/* 画像用リビール — スケール＋フェード、やや長めのデュレーション */
+.reveal--img {
+  opacity: 0;
+  transform: scale(0.97) translateY(14px);
+  transition:
+    opacity  1.3s var(--ease),
+    transform 1.3s var(--ease);
+}
+.reveal--img.revealed {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
 /* セクションラベル（英字小さい大文字） */
 .section-label {
   display: block;
@@ -679,6 +692,10 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  transition: transform 0.5s var(--ease);
+}
+.product:hover {
+  transform: translateY(-5px);
 }
 
 /* 商品写真エリア（縦長）*/
@@ -833,6 +850,42 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
    ---------------------------------------------------------------- */
 .footer {
   background: var(--c-dark);
+}
+
+/* Brand manifesto — visual と main の間 */
+.footer__manifesto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 52px 56px 0;
+}
+.footer__manifesto-rule {
+  display: block;
+  height: 1px;
+  background: rgba(242, 240, 236, 0.08);
+  flex: 1;
+  max-width: 200px;
+}
+.footer__manifesto-text {
+  font-family: var(--font-serif);
+  font-size: 0.78rem;
+  font-weight: 300;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: rgba(242, 240, 236, 0.24);
+  white-space: nowrap;
+}
+
+.footer__manifesto-sub {
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: 0.58rem;
+  font-weight: 200;
+  letter-spacing: 0.24em;
+  color: rgba(242, 240, 236, 0.12);
+  padding: 10px 56px 0;
+  text-transform: uppercase;
 }
 
 /* フッタービジュアル — couple.png をフル幅で表示、下端でフェードアウト */
@@ -1124,6 +1177,12 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
     max-height: none;
     background-position: center 30%;
   }
+  .footer__manifesto {
+    padding: 40px 24px 0;
+    gap: 18px;
+  }
+  .footer__manifesto-rule { max-width: 80px; }
+  .footer__manifesto-sub  { padding: 8px 24px 0; }
   .footer__main {
     grid-template-columns: 1fr 1fr;
     gap: 36px;

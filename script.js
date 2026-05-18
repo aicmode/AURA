@@ -76,7 +76,7 @@ function initFilmGrain() {
    同一セクション内の要素を 80ms ずつずらしてスタガー表示します。
    ---------------------------------------------------------------- */
 function initScrollReveal() {
-  const elements = document.querySelectorAll('.reveal');
+  const elements = document.querySelectorAll('.reveal, .reveal--img');
   if (!elements.length) return;
 
   const observer = new IntersectionObserver(
@@ -84,11 +84,15 @@ function initScrollReveal() {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
 
+        const isImg = entry.target.classList.contains('reveal--img');
+
         /* 同じパネル内の兄弟要素のインデックスを取得してスタガー遅延 */
-        const parent   = entry.target.closest('[class*="__"]:not(.reveal)') || entry.target.parentElement;
-        const siblings = [...parent.querySelectorAll('.reveal:not(.revealed)')];
+        const revealSelector = '.reveal:not(.revealed), .reveal--img:not(.revealed)';
+        const parent   = entry.target.closest('[class*="__"]:not(.reveal):not(.reveal--img)') || entry.target.parentElement;
+        const siblings = [...parent.querySelectorAll(revealSelector)];
         const idx      = siblings.indexOf(entry.target);
-        const delay    = Math.max(0, idx) * 80;
+        /* 画像は少し遅らせてフェード表示 */
+        const delay    = isImg ? 120 + Math.max(0, idx) * 100 : Math.max(0, idx) * 80;
 
         setTimeout(() => {
           entry.target.classList.add('revealed');
@@ -98,8 +102,8 @@ function initScrollReveal() {
       });
     },
     {
-      threshold:  0.10,
-      rootMargin: '0px 0px -35px 0px',
+      threshold:  0.08,
+      rootMargin: '0px 0px -30px 0px',
     }
   );
 

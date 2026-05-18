@@ -16,6 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@100;200;300;400&family=Noto+Serif+JP:wght@200;300;400&display=swap" rel="stylesheet">
 
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -89,8 +90,8 @@
       <div class="hero__rule" aria-hidden="true"></div>
       <p class="hero__tagline">Beauty beyond labels.</p>
       <div class="hero__cta">
-        <a href="#philosophy" class="btn btn--solid">Explore</a>
-        <a href="#collection" class="btn btn--outline">View Collection</a>
+        <a href="#philosophy" class="btn btn--solid" aria-label="ブランド世界観へ">Explore</a>
+        <a href="#collection" class="btn btn--outline" aria-label="商品一覧へ">View Collection</a>
       </div>
     </div>
 
@@ -132,7 +133,7 @@
 
     <!-- 中央パネル: エディトリアルポートレート -->
     <!-- ★ 写真差し替え: .philo__portrait { background-image: url('your-portrait.jpg'); } -->
-    <div class="philo__portrait" role="img" aria-label="Brand portrait"></div>
+    <div class="philo__portrait reveal--img" role="img" aria-label="Brand portrait"></div>
 
     <!-- 右パネル: 4つの強みリスト -->
     <div class="philo__right">
@@ -312,16 +313,16 @@
 
     <!-- 右フォトグリッド（4枚 2×2） -->
     <div class="exp__photos" aria-hidden="true">
-      <div class="exp__photo exp__photo--1">
+      <div class="exp__photo exp__photo--1 reveal--img">
         <img src="images/view-01.jpg" alt="" loading="lazy">
       </div>
-      <div class="exp__photo exp__photo--2">
+      <div class="exp__photo exp__photo--2 reveal--img">
         <img src="images/view-02.jpg" alt="" loading="lazy">
       </div>
-      <div class="exp__photo exp__photo--3">
+      <div class="exp__photo exp__photo--3 reveal--img">
         <img src="images/view-03.jpg" alt="" loading="lazy">
       </div>
-      <div class="exp__photo exp__photo--4">
+      <div class="exp__photo exp__photo--4 reveal--img">
         <img src="images/view-04.jpg" alt="" loading="lazy">
       </div>
     </div>
@@ -336,6 +337,14 @@
 
     <!-- Footer editorial visual (couple.png) -->
     <div class="footer__visual" aria-hidden="true"></div>
+
+    <!-- Brand manifesto statement -->
+    <div class="footer__manifesto">
+      <span class="footer__manifesto-rule" aria-hidden="true"></span>
+      <p class="footer__manifesto-text">AURA — Silence in Form.</p>
+      <span class="footer__manifesto-rule" aria-hidden="true"></span>
+    </div>
+    <p class="footer__manifesto-sub">Night Care for Quiet Minds.</p>
 
     <div class="footer__main">
 
