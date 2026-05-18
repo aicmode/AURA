@@ -1039,11 +1039,14 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   .philo__left  { padding: 70px 44px; border-right: none; }
   .philo__right { padding: 70px 44px; }
 
-  /* Collection: 左幅を縮小 */
+  /* Collection: 左幅を縮小、グリッドを2列に */
   .collection { grid-template-columns: 220px 1fr; }
   .collection__info { padding: 60px 32px; }
   .collection__products { padding: 50px 36px 44px; }
-  .collection__grid { gap: 14px; }
+  .collection__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
 
   /* Experience */
   .experience { grid-template-columns: 36fr 64fr; }
@@ -1149,8 +1152,15 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   }
   .collection__products { padding: 40px 28px 48px; }
   .collection__grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    grid-template-columns: 1fr;  /* スマホは1列 */
+    gap: 20px;
+  }
+  /* 商品カード: 幅100%を明示 */
+  .product {
+    width: 100%;
+  }
+  .product__photo {
+    width: 100%;
   }
 
   /* --- Experience --- */
@@ -1163,11 +1173,14 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
     border-bottom: 1px solid var(--c-cream-border);
   }
   .exp__photos {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;  /* 2列グリッドを維持 */
     grid-template-rows: auto;
+    gap: 3px;
   }
+  /* aspect-ratio で高さを統一 (min-height では height:100% が解決しない) */
   .exp__photo {
-    min-height: 38vw;
+    min-height: unset;
+    aspect-ratio: 4 / 3;
   }
 
   /* --- Footer --- */
@@ -1203,6 +1216,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 @media (max-width: 420px) {
   .collection__grid { grid-template-columns: 1fr; }
   .exp__photos  { grid-template-columns: 1fr 1fr; }
-  .exp__photo   { min-height: 48vw; }
+  /* min-height を上書きせず aspect-ratio を継承させる */
+  .exp__photo   { min-height: unset; aspect-ratio: 4 / 3; }
   .footer__main { grid-template-columns: 1fr; }
 }
