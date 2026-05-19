@@ -62,7 +62,8 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 65px; /* 固定ナビ分のオフセット */
+  scroll-padding-top: 65px;
+  overflow-x: hidden;
 }
 
 body {
@@ -638,21 +639,21 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 
 
 /* ----------------------------------------------------------------
-   7. Collection Section（左インフォ + 右商品グリッド）
+   7. Collection Section（全幅 + 中央揃えグリッド）
    ---------------------------------------------------------------- */
 .collection {
-  display: grid;
-  grid-template-columns: 270px 1fr;
-  min-height: 70vh;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
   background: var(--c-dark);
 }
 
-/* 左インフォパネル — male-product.png を右端に滲ませる */
+/* 情報バンド: 全幅ヘッダー。male-product.png を右に滲ませて editorial 感を維持 */
 .collection__info {
   display: flex;
   align-items: center;
-  padding: 80px 44px;
-  border-right: 1px solid var(--c-border);
+  padding: 80px 56px 72px;
+  border-bottom: 1px solid var(--c-border);
   background-image:
     linear-gradient(to right,
       rgba(12, 12, 12, 1.00)  0%,
@@ -664,6 +665,11 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   background-position: center right;
 }
 
+.collection__info-inner {
+  width: 100%;
+  max-width: 520px;
+}
+
 .collection__heading {
   font-family: var(--font-serif);
   font-size: clamp(1.8rem, 3vw, 2.6rem);
@@ -673,24 +679,32 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   margin-bottom: 0;
 }
 
-/* 右: 商品一覧エリア */
+/* 商品エリア: 中央揃えコンテナ */
 .collection__products {
-  padding: 64px 48px 56px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  padding: 64px 56px 72px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
+/* グリッド本体: 2列、最大幅 1200px、中央揃え */
 .collection__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  flex: 1;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+  max-width: 1200px;
 }
 
 /* 商品カード */
 .product {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   cursor: pointer;
   transition: transform 0.5s var(--ease);
 }
@@ -698,18 +712,21 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   transform: translateY(-5px);
 }
 
-/* 商品写真エリア（縦長）*/
+/* 商品写真エリア */
 .product__photo {
   aspect-ratio: 3 / 4;
   position: relative;
+  width: 100%;
+  max-width: 100%;
   overflow: hidden;
   background-color: #0c0c0c;
 }
 
-/* img タグを親に合わせてトリミング */
+/* img: object-fit cover で自然表示 */
 .product__photo img {
   width: 100%;
   height: 100%;
+  max-width: 100%;
   object-fit: cover;
   object-position: center top;
   display: block;
@@ -718,7 +735,6 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
     filter  0.55s ease;
 }
 
-/* ホバー: 拡大 + 微かな明度アップ */
 .product:hover .product__photo img {
   transform: scale(1.06);
   filter: brightness(1.08);
@@ -751,12 +767,14 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   color: var(--c-gray);
 }
 
-/* 商品ナビゲーション矢印 */
+/* ナビゲーション矢印: グリッドと同幅・右揃え */
 .collection__nav {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  margin-top: 28px;
+  margin-top: 32px;
+  width: 100%;
+  max-width: 1200px;
 }
 .collection__arrow {
   width: 38px;
@@ -782,6 +800,8 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   display: grid;
   grid-template-columns: 32fr 68fr;
   min-height: 75vh;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 /* 左テキストパネル（クリーム背景） */
@@ -813,14 +833,18 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 /* 右フォトグリッド（4枚 2×2） */
 .exp__photos {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-template-rows: 1fr 1fr;
   gap: 3px;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 /* 各フォトセル */
 .exp__photo {
   position: relative;
+  min-width: 0;
   overflow: hidden;
   min-height: 220px;
   background-color: #0c0c0c;
@@ -830,6 +854,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 .exp__photo img {
   width: 100%;
   height: 100%;
+  max-width: 100%;
   object-fit: cover;
   object-position: center;
   display: block;
@@ -1039,14 +1064,9 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   .philo__left  { padding: 70px 44px; border-right: none; }
   .philo__right { padding: 70px 44px; }
 
-  /* Collection: 左幅を縮小、グリッドを2列に */
-  .collection { grid-template-columns: 220px 1fr; }
-  .collection__info { padding: 60px 32px; }
-  .collection__products { padding: 50px 36px 44px; }
-  .collection__grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-  }
+  /* Collection: タブレットは padding を少し縮める */
+  .collection__info { padding: 64px 40px 56px; }
+  .collection__products { padding: 52px 40px 60px; }
 
   /* Experience */
   .experience { grid-template-columns: 36fr 64fr; }
@@ -1056,18 +1076,26 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 /* ============ スマートフォン: 768px 以下 ============ */
 @media (max-width: 768px) {
 
-  /* --- Navigation --- */
-  .nav {
-    grid-template-columns: auto auto; /* ロゴ + 右側のみ */
-    padding: 0 24px;
+  /* --- ベース: 横スクロール完全排除 --- */
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
-  /* 中央ナビをフルスクリーンドロワーに */
+  /* --- Navigation --- */
+  .nav {
+    grid-template-columns: auto auto;
+    padding: 0 20px;
+  }
+
   .nav__menu {
     position: fixed;
     top: 65px;
     left: 0;
     right: 0;
+    width: 100%;
     flex-direction: column;
     align-items: center;
     gap: 0;
@@ -1075,7 +1103,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--c-border);
-    padding: 40px 0;
+    padding: 36px 0;
     opacity: 0;
     pointer-events: none;
     transform: translateY(-12px);
@@ -1087,125 +1115,193 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
     transform: translateY(0);
   }
   .nav__menu li { width: 100%; text-align: center; }
-  .nav__link { display: block; padding: 18px 0; font-size: 0.78rem; }
-
-  .nav__cart    { display: none; }
-  .nav__toggle  { display: flex; }
+  .nav__link { display: block; padding: 16px 0; font-size: 0.75rem; }
+  .nav__cart   { display: none; }
+  .nav__toggle { display: flex; }
 
   /* --- Hero --- */
-  /* スマホ: モデルパネルをフル幅・低不透明度で背景として使用 */
   .hero__models {
     width: 100%;
-    opacity: 0.25; /* 薄くして背景の画像が主役になるよう調整 */
+    opacity: 0.22;
   }
   .hero__overlay {
-    /* スマホ用: 全体を均一に暗くして画像のテイストを残しつつ可読性確保 */
     background:
       linear-gradient(to bottom,
-        rgba(4, 4, 10, 0.45) 0%,
-        transparent 20%,
-        transparent 70%,
-        rgba(4, 4, 10, 0.60) 100%),
+        rgba(4, 4, 10, 0.55) 0%,
+        rgba(4, 4, 10, 0.10) 25%,
+        rgba(4, 4, 10, 0.10) 65%,
+        rgba(4, 4, 10, 0.72) 100%),
       linear-gradient(to right,
-        rgba(4, 4, 10, 0.88) 0%,
-        rgba(4, 4, 10, 0.78) 40%,
-        rgba(4, 4, 10, 0.65) 100%);
+        rgba(4, 4, 10, 0.95) 0%,
+        rgba(4, 4, 10, 0.80) 50%,
+        rgba(4, 4, 10, 0.62) 100%);
   }
   .hero__content {
     left: 0;
     right: 0;
+    padding: 0 28px;
     text-align: center;
     transform: translateY(-50%);
-    padding: 0 24px;
+  }
+  /* Hero タイトル: スマホ用サイズに縮小し、letter-spacing オーバーフロー防止 */
+  .hero__title {
+    font-size: clamp(3.2rem, 18vw, 4.8rem);
+    margin-right: 0;
+  }
+  /* 装飾ラインをセンタリング */
+  .hero__rule {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero__tagline {
+    font-size: clamp(0.68rem, 3.2vw, 0.85rem);
   }
   .hero__cta {
     justify-content: center;
     flex-direction: column;
     align-items: center;
     gap: 12px;
+    margin-top: 32px;
   }
-  .btn { width: 230px; text-align: center; }
+  /* ボタン幅: 画面幅に追従しつつ最大240px */
+  .btn {
+    width: min(240px, calc(100% - 56px));
+    text-align: center;
+    padding: 14px 24px;
+  }
   .hero__scroll { display: none; }
 
   /* --- Philosophy --- */
   .philosophy {
     grid-template-columns: 1fr;
   }
+  /* ポートレート: ランドスケープ比率でエディトリアルなバナー表示 */
   .philo__portrait {
     display: block;
-    min-height: 55vw;
+    min-height: unset;
+    aspect-ratio: 3 / 2;
   }
-  .philo__left,
+  .philo__left {
+    padding: 64px 24px 56px;
+    border-right: none;
+    border-bottom: 1px solid var(--c-cream-border);
+  }
   .philo__right {
-    padding: 60px 28px;
+    padding: 56px 24px 64px;
+    border-left: none;
+    border-top: 1px solid var(--c-cream-border);
   }
-  .philo__right { border-top: 1px solid var(--c-cream-border); }
+  .philo__heading {
+    font-size: clamp(1.9rem, 8vw, 2.8rem);
+  }
 
   /* --- Collection --- */
   .collection {
-    grid-template-columns: 1fr;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
   }
   .collection__info {
-    padding: 56px 28px 40px;
-    border-right: none;
-    border-bottom: 1px solid var(--c-border);
+    padding: 52px 24px 44px;
   }
-  .collection__products { padding: 40px 28px 48px; }
+  .collection__heading {
+    font-size: clamp(1.6rem, 7vw, 2.2rem);
+  }
+  .collection__products {
+    padding: 40px 16px 48px;
+    width: 100%;
+    overflow: hidden;
+  }
+  /* スマホは1列: !important で2カラム化を強制排除 */
   .collection__grid {
-    grid-template-columns: 1fr;  /* スマホは1列 */
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    max-width: 100% !important;
     gap: 20px;
+    overflow: hidden !important;
   }
-  /* 商品カード: 幅100%を明示 */
   .product {
-    width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
   }
-  .product__photo {
-    width: 100%;
+  .product__photo img {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    object-fit: cover !important;
   }
 
   /* --- Experience --- */
   .experience {
     grid-template-columns: 1fr;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
   }
   .exp__text {
-    padding: 60px 28px;
+    padding: 64px 24px 56px;
     border-right: none;
     border-bottom: 1px solid var(--c-cream-border);
   }
+  .exp__heading {
+    font-size: clamp(2.2rem, 8.5vw, 3rem);
+  }
+  /* フォトグリッドをスマホでは1列縦並びに */
   .exp__photos {
-    grid-template-columns: 1fr 1fr;  /* 2列グリッドを維持 */
+    display: grid !important;
+    grid-template-columns: 1fr !important;
     grid-template-rows: auto;
     gap: 3px;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
   }
-  /* aspect-ratio で高さを統一 (min-height では height:100% が解決しない) */
   .exp__photo {
     min-height: unset;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 16 / 9;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+  .exp__photo img {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+    object-fit: cover !important;
   }
 
   /* --- Footer --- */
   .footer__visual {
-    height: 42vw;
-    min-height: 200px;
+    height: 54vw;
+    min-height: 220px;
     max-height: none;
     background-position: center 30%;
   }
   .footer__manifesto {
-    padding: 40px 24px 0;
-    gap: 18px;
+    padding: 44px 24px 0;
+    gap: 16px;
   }
-  .footer__manifesto-rule { max-width: 80px; }
-  .footer__manifesto-sub  { padding: 8px 24px 0; }
+  .footer__manifesto-rule { max-width: 60px; }
+  .footer__manifesto-text {
+    font-size: 0.70rem;
+    letter-spacing: 0.22em;
+  }
+  .footer__manifesto-sub { padding: 8px 24px 0; }
   .footer__main {
     grid-template-columns: 1fr 1fr;
-    gap: 36px;
-    padding: 56px 28px 48px;
+    gap: 40px 28px;
+    padding: 56px 24px 48px;
   }
   .footer__brand {
     grid-column: 1 / -1;
   }
   .footer__bottom {
-    padding: 18px 28px;
+    padding: 18px 24px;
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
@@ -1214,9 +1310,14 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 
 /* ============ 極小スマホ: 420px 以下 ============ */
 @media (max-width: 420px) {
-  .collection__grid { grid-template-columns: 1fr; }
-  .exp__photos  { grid-template-columns: 1fr 1fr; }
-  /* min-height を上書きせず aspect-ratio を継承させる */
-  .exp__photo   { min-height: unset; aspect-ratio: 4 / 3; }
-  .footer__main { grid-template-columns: 1fr; }
+
+  .hero__title {
+    font-size: clamp(2.8rem, 17vw, 3.6rem);
+  }
+  .exp__photos  { grid-template-columns: 1fr !important; }
+  .exp__photo   { aspect-ratio: 16 / 9; }
+  .footer__main {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
 }
